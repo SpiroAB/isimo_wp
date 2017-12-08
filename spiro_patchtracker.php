@@ -2,12 +2,12 @@
 	/**
 	 * @package Spiro Patchtracker Client
 	 * @author Puggan
-	 * @version 0.0.1
+	 * @version 0.0.2
 	 */
 	/*
 	Plugin Name: Spiro Patchtracker Client
 	Description: Providing data to the Spiro Patchtracker Server
-	Version: 0.0.1
+	Version: 0.0.2
 	Author: Puggan
 	*/
 
@@ -40,6 +40,7 @@
 		$data->report = [];
 		$data->software = 'Wordpress';
 		$data->version = $wp_version;
+		$data->client = 'patchtracker wp 0.0.2';
 
 		ob_start();
 		phpinfo();
@@ -47,7 +48,7 @@
 
 		$data->mysql = [];
 		foreach($wpdb->get_results('SHOW VARIABLES') as $row) {
-			$data->mysqlinfo[$row->Variable_name] = $row->Value;
+			$data->mysql[$row->Variable_name] = $row->Value;
 		};
 
 		header('Content-Type: application/json');
