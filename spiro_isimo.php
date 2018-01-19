@@ -1,36 +1,36 @@
 <?php
 	/**
-	 * @package Spiro Patchtracker Client
+	 * @package Spiro Isimo Client
 	 * @author Puggan
-	 * @version 0.0.2
+	 * @version 0.0.3
 	 */
 	/*
-	Plugin Name: Spiro Patchtracker Client
-	Description: Providing data to the Spiro Patchtracker Server
-	Version: 0.0.2
+	Plugin Name: Spiro Isimo Client
+	Description: Providing data to the Spiro Isimo Server
+	Version: 0.0.3
 	Author: Puggan
 	*/
 
-	add_action('parse_request', 'spiro_patchtracker_url_test');
+	add_action('parse_request', 'spiro_isimo_url_test');
 
-	function spiro_patchtracker_url_test()
+	function spiro_isimo_url_test()
 	{
-		$needle = '/patchtracker/status/';
+		$needle = '/isimo/status/';
 		$token_test = strstr($_SERVER["REQUEST_URI"], $needle);
 		if(!$token_test) return;
 		$token = substr($token_test, strlen($needle));
 
-		if(!defined('SPIRO_PATCHTRACKER_TOKEN')) return false;
+		if(!defined('SPIRO_ISIMO_TOKEN')) return false;
 
-		if(!SPIRO_PATCHTRACKER_TOKEN) return false;
+		if(!SPIRO_ISIMO_TOKEN) return false;
 
-		if($token !== SPIRO_PATCHTRACKER_TOKEN) return false;
+		if($token !== SPIRO_ISIMO_TOKEN) return false;
 
-		spiro_patchtracker();
+		spiro_isimo();
 		die();
 	}
 
-	function spiro_patchtracker()
+	function spiro_isimo()
 	{
 		global $wpdb;
 		global $wp_version;
@@ -40,7 +40,7 @@
 		$data->report = [];
 		$data->software = 'Wordpress';
 		$data->version = $wp_version;
-		$data->client = 'patchtracker wp 0.0.2';
+		$data->client = 'isimo wp 0.0.3';
 
 		ob_start();
 		phpinfo();
