@@ -2,12 +2,12 @@
 	/**
 	 * @package Isimo Client
 	 * @author Puggan
-	 * @version 0.0.4
+	 * @version 0.0.5
 	 */
 	/*
 	Plugin Name: Isimo Client
 	Description: Providing data to the Isimo Server
-	Version: 0.0.4
+	Version: 0.0.5
 	Author: Puggan
 	*/
 
@@ -40,7 +40,7 @@
 		$data->report = [];
 		$data->software = 'Wordpress';
 		$data->version = $wp_version;
-		$data->client = 'isimo wp 0.0.4';
+		$data->client = 'isimo wp 0.0.5';
 
 		ob_start();
 		phpinfo();
@@ -69,6 +69,11 @@
 			$data->gitsha = $git_ref;
 			break;
 		}
+
+		if(!function_exists('get_plugins')) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$data->plugins = get_plugins();
 
 		header('Content-Type: application/json');
 		echo json_encode($data, JSON_PRETTY_PRINT);
