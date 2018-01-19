@@ -1,36 +1,36 @@
 <?php
 	/**
-	 * @package Spiro Isimo Client
+	 * @package Isimo Client
 	 * @author Puggan
 	 * @version 0.0.3
 	 */
 	/*
-	Plugin Name: Spiro Isimo Client
-	Description: Providing data to the Spiro Isimo Server
+	Plugin Name: Isimo Client
+	Description: Providing data to the Isimo Server
 	Version: 0.0.3
 	Author: Puggan
 	*/
 
-	add_action('parse_request', 'spiro_isimo_url_test');
+	add_action('parse_request', 'isimo_url_test');
 
-	function spiro_isimo_url_test()
+	function isimo_url_test()
 	{
 		$needle = '/isimo/status/';
 		$token_test = strstr($_SERVER["REQUEST_URI"], $needle);
 		if(!$token_test) return;
 		$token = substr($token_test, strlen($needle));
 
-		if(!defined('SPIRO_ISIMO_TOKEN')) return false;
+		if(!defined('ISIMO_TOKEN')) return false;
 
-		if(!SPIRO_ISIMO_TOKEN) return false;
+		if(!ISIMO_TOKEN) return false;
 
-		if($token !== SPIRO_ISIMO_TOKEN) return false;
+		if($token !== ISIMO_TOKEN) return false;
 
-		spiro_isimo();
+		isimo();
 		die();
 	}
 
-	function spiro_isimo()
+	function isimo()
 	{
 		global $wpdb;
 		global $wp_version;
