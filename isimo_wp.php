@@ -7,7 +7,7 @@
 	/*
 	Plugin Name: Isimo Client
 	Description: Providing data to the Isimo Server
-	Version: 0.0.5
+	Version: 0.0.6
 	Author: Puggan
 	*/
 
