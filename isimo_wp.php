@@ -35,12 +35,19 @@
 		global $wpdb;
 		global $wp_version;
 
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        require_once ABSPATH . 'wp-admin/includes/update.php';
+
 		$data = (object) [];
 
-		$data->report = [];
+		$data->report = [
+		    'core' => get_core_updates(),
+		    'plugins' => get_plugin_updates(),
+        ];
 		$data->software = 'Wordpress';
 		$data->version = $wp_version;
-		$data->client = 'isimo wp 0.0.5';
+		$data->client = 'isimo wp 0.0.6';
+		$data->plugins = get_plugins();
 
 		ob_start();
 		phpinfo();
@@ -69,11 +76,6 @@
 			$data->gitsha = $git_ref;
 			break;
 		}
-
-		if(!function_exists('get_plugins')) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		$data->plugins = get_plugins();
 
 		header('Content-Type: application/json');
 		echo json_encode($data, JSON_PRETTY_PRINT);
