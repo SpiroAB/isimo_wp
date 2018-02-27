@@ -8,7 +8,12 @@
 	<!-- Unix fileendings -->
 	<rule ref="Generic.Files.LineEndings" />
 	<!-- Line width 80/100 -->
-	<rule ref="Generic.Files.LineLength" />
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120"/>
+			<property name="absoluteLineLimit" value="200"/>
+		</properties>
+	</rule>
 
 	<!-- Disabled, always one off
 	<rule ref="Generic.WhiteSpace.ScopeIndent">
@@ -35,7 +40,7 @@
 	<rule ref="PEAR.Classes.ClassDeclaration" />
 	<rule ref="PEAR.Functions.FunctionCallSignature" />
 	<rule ref="PEAR.Functions.ValidDefaultValue" />
-	<rule ref="PEAR.WhiteSpace.ScopeClosingBrace" />
+	<!-- rule ref="PEAR.WhiteSpace.ScopeClosingBrace" / -->
 	<rule ref="Squiz.Functions.GlobalFunction" />
 	<!-- rule ref="Generic.WhiteSpace.DisallowTabIndent"/ -->
 	<rule ref="PEAR.ControlStructures.ControlSignature">
@@ -46,7 +51,10 @@
 	<rule ref="Generic.ControlStructures.InlineControlStructure" />
 	<!-- rule ref="Generic.PHP.LowerCaseConstant"/ -->
 	<rule ref="Generic.Commenting.DocComment">
+		<exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
+		<exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
 		<exclude name="Generic.Commenting.DocComment.MissingShort" />
+		<exclude name="Generic.Commenting.DocComment.TagValueIndent" />
 	</rule>
 
 	<!-- PSR 2 -->
@@ -54,7 +62,7 @@
 	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
 	<rule ref="Generic.Formatting.DisallowMultipleStatements" />
 	<!-- PSR 2 Section 2.5 -->
-	<rule ref="Generic.PHP.LowerCaseKeyword" />
+	<!-- rule ref="Generic.PHP.LowerCaseKeyword" / -->
 	<!-- PSR 2 Section 4.3 -->
 	<rule ref="Squiz.Scope.MethodScope" />
 	<rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing" />
@@ -69,6 +77,7 @@
 
 	<!-- PSR 2 Section 5 -->
 	<rule ref="Squiz.ControlStructures.ControlSignature">
+		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace" />
 		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseParenthesis" />
 		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterKeyword" />
 	</rule>
