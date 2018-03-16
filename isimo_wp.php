@@ -12,7 +12,7 @@
 	Author: Puggan <puggan@spiro.se>
 	*/
 
-	require_once __DIR__ . 'isimo.php';
+	require_once __DIR__ . '/Isimo.php';
 
 	// Add listner.
 	add_action('parse_request', '\Puggan\Isimo::url_test');
