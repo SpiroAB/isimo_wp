@@ -42,7 +42,7 @@
 			}
 
 			self::isimo_print();
-			return true;
+			die();
 		}
 
 
