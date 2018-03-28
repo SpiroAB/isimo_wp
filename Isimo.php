@@ -9,13 +9,25 @@
 	 */
 	class Isimo
 	{
+		public function __construct()
+		{
+			add_action('init', [$this, 'init']);
+		}
+
+		public function init()
+		{
+			// Add url-test
+			add_action('parse_request', [$this, 'url_test']);
+		}
+
+
 		/**
 		 * On parse_requestm check if an isimo-request
 		 * print isimo, or return false
 		 *
 		 * @return false
 		 */
-		public static function url_test()
+		public function url_test()
 		{
 			$needle = '/isimo/status/';
 			$token_test = strstr($_SERVER['REQUEST_URI'], $needle);
@@ -51,7 +63,7 @@
 		 *
 		 * @return void
 		 */
-		public static function isimo_print()
+		public function isimo_print()
 		{
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			include_once ABSPATH . 'wp-admin/includes/update.php';

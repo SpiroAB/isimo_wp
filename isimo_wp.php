@@ -18,4 +18,4 @@
 	require_once __DIR__ . '/Isimo.php';
 
 	// Add listner.
-	add_action('parse_request', '\SpiroAB\Isimo::url_test');
+	$isimo = new \SpiroAB\Isimo();
