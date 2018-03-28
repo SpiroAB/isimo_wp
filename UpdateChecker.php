@@ -29,7 +29,7 @@
 		{
 			static $remote_version = NULL;
 
-			if(!$remote_version) return $remote_version;
+			if($remote_version) return $remote_version;
 
 			$remote_version = file_get_contents($this->UpdateCheckerURL);
 
@@ -55,7 +55,7 @@
 					'slug' => $this->UpdateCheckerSlug,
 					'new_version' => $remote_version,
 				];
-				$transient->response[$transient->slug] = $meta;
+				$transient->response[$meta->slug] = $meta;
 			}
 			return $transient;
 		}
