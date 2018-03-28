@@ -4,13 +4,13 @@
 	 *
 	 * @package Isimo_Client
 	 * @author Puggan Sundragon <puggan@spiro.se>
-	 * @version 0.0.8
+	 * @version 0.0.9
 	 *
 	 * @wordpress-plugin
 	 * Plugin Name: Isimo Client
 	 * Plugin URI: https://github.com/SpiroAB/isimo_wp
 	 * Description: Providing data to the Isimo Server
-	 * Version: 0.0.8
+	 * Version: 0.0.9
 	 * Author: Puggan Sundragon <puggan@spiro.se>
 	 * Author URI: https://spiro.se/
 	 */
