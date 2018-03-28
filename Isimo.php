@@ -9,9 +9,12 @@
 	 */
 	class Isimo
 	{
+		use UpdateChecker;
+
 		public function __construct()
 		{
 			add_action('init', [$this, 'init']);
+			$this->UpdateCheckerConfig("https://raw.githubusercontent.com/SpiroAB/isimo_wp/master/VERSION", file_get_contents(__DIR__ . '/VERSION'));
 		}
 
 		public function init()
@@ -63,7 +66,7 @@
 		 *
 		 * @return void
 		 */
-		public function isimo_print()
+		public static function isimo_print()
 		{
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			include_once ABSPATH . 'wp-admin/includes/update.php';

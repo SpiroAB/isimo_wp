@@ -15,6 +15,7 @@
 	 * Author URI: https://spiro.se/
 	 */
 
+	require_once __DIR__ . '/UpdateChecker.php';
 	require_once __DIR__ . '/Isimo.php';
 
 	// Add listner.
