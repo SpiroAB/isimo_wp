@@ -1,11 +1,11 @@
 <?php
 
-	namespace Puggan;
+	namespace SpiroAB;
 
 	/**
 	 * Class Isimo
 	 *
-	 * @package Puggan
+	 * @package Isimo_Client
 	 */
 	class Isimo
 	{
