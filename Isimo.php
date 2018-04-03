@@ -148,8 +148,8 @@ HTML_BLOCK;
 				return FALSE;
 			}
 
-			self::isimo_print();
 			update_option('isimo_last_fetch', time());
+			self::isimo_print();
 			die();
 		}
 
