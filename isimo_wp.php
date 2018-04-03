@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Plugin Name
+	 * Isimo Client
 	 *
 	 * @package Isimo_Client
 	 * @author Puggan Sundragon <puggan@spiro.se>
