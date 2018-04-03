@@ -6,20 +6,120 @@
 	 * Class Isimo
 	 *
 	 * @package Isimo_Client
+	 *
+	 * @property bool $locked
+	 * @property string $token
+	 * @property int $last_fetch_time
 	 */
 	class Isimo
 	{
+		public $locked;
+		public $token;
+		public $last_fetch_time;
+
+
 		public function __construct()
 		{
 			add_action('init', [$this, 'init']);
+			if(is_admin())
+			{
+				add_action('admin_init', [$this, 'admin_init']);
+				add_action('admin_menu', [$this, 'option_menu']);
+			}
 		}
 
 		public function init()
 		{
 			// Add url-test
 			add_action('parse_request', [$this, 'url_test']);
+
+			$this->locked = defined('ISIMO_TOKEN');
+			if($this->locked)
+			{
+				$this->token = ISIMO_TOKEN;
+			}
+			else
+			{
+				$this->token = get_option('isimo_token');
+			}
+			$this->last_fetch_time = get_option('isimo_last_fetch');
 		}
 
+		public function admin_init()
+		{
+			register_setting( 'Isimo', 'isimo_token' );
+		}
+
+		public function option_menu()
+		{
+			add_options_page(
+				'Isimo Config',
+				'Isimo',
+				'manage_options',
+				'isimo-config',
+				[$this, 'option_page']
+			);
+		}
+
+		public function option_page()
+		{
+			if(isset($_POST['generate']))
+			{
+				/** @noinspection CryptographicallySecureRandomnessInspection */
+				update_option('isimo_token', base64_encode(openssl_random_pseudo_bytes(24)));
+				if(!$this->locked)
+				{
+					$this->token = get_option('isimo_token');
+				}
+			}
+			else if(isset($_POST['isimo_token']))
+			{
+				update_option('isimo_token', (string) $_POST['isimo_token']);
+				if(!$this->locked)
+				{
+					$this->token = get_option('isimo_token');
+				}
+			}
+
+			echo <<<HTML_BLOCK
+       <div class="wrap" id="isimo_options">
+            <style>
+               #isimo_options label {display: block;}
+               #isimo_options label span:first-child {display: inline-block; width: 140px;}
+               #isimo_options label input[type=text] {width: 400px;}
+            </style>
+            <h1>Isimo</h1>
+            <form method="post" action="#">
+
+HTML_BLOCK;
+
+			echo '<label><span>Isimo Access-token:</span> ';
+			if($this->locked)
+			{
+				echo '<input type="text" readonly value="' . htmlentities($this->token) . '" />';
+			}
+			else
+			{
+				echo '<input type="text" name="isimo_token" value="' . htmlentities($this->token) . '" />';
+
+			}
+			echo "</label>";
+			$fetch_value = $this->last_fetch_time ? date("Y-m-d H:i:s e", $this->last_fetch_time) : 'Never';
+			echo '<label><span>Last fetched:</span> <input type="text" readonly value="' . $fetch_value . '" /></label>';
+
+			submit_button();
+
+			if(!$this->token)
+			{
+				echo '<input type="submit" name="generate" value="Generate Token" class="button button-primary" />';
+			}
+
+			echo <<<HTML_BLOCK
+            </form>
+        </div>
+HTML_BLOCK;
+
+		}
 
 		/**
 		 * On parse_requestm check if an isimo-request
@@ -38,22 +138,18 @@
 
 			$token = substr($token_test, strlen($needle));
 
-			if(!defined('ISIMO_TOKEN'))
+			if(!$this->token)
 			{
 				return FALSE;
 			}
 
-			if(!ISIMO_TOKEN)
-			{
-				return FALSE;
-			}
-
-			if($token !== ISIMO_TOKEN)
+			if($token !== $this->token)
 			{
 				return FALSE;
 			}
 
 			self::isimo_print();
+			update_option('isimo_last_fetch', time());
 			die();
 		}
 
