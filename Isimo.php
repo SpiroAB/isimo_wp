@@ -9,12 +9,9 @@
 	 */
 	class Isimo
 	{
-		use UpdateChecker;
-
 		public function __construct()
 		{
 			add_action('init', [$this, 'init']);
-			$this->UpdateCheckerConfig("https://raw.githubusercontent.com/SpiroAB/isimo_wp/master/VERSION", file_get_contents(__DIR__ . '/VERSION'));
 		}
 
 		public function init()
@@ -71,6 +68,8 @@
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			include_once ABSPATH . 'wp-admin/includes/update.php';
 
+			$isimo_version = json_decode(file_get_contents(__DIR__ . '/version.json'));
+
 			$data = (object) [];
 
 			$data->report = [
@@ -79,7 +78,7 @@
 			];
 			$data->software = 'Wordpress';
 			$data->version = $GLOBALS['wp_version'];
-			$data->client = 'isimo wp 0.0.6';
+			$data->client = 'isimo wp ' . $isimo_version->version;
 			$data->plugins = get_plugins();
 
 			ob_start();
