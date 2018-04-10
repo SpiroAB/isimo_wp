@@ -166,6 +166,9 @@ HTML_BLOCK;
 
 			$isimo_version = json_decode(file_get_contents(__DIR__ . '/version.json'));
 
+			$active_plugins = get_option('active_plugins');
+			$active_plugins = array_combine($active_plugins, $active_plugins);
+
 			$data = (object) [];
 
 			$data->report = [
@@ -175,7 +178,7 @@ HTML_BLOCK;
 			$data->software = 'Wordpress';
 			$data->version = $GLOBALS['wp_version'];
 			$data->client = 'isimo wp ' . $isimo_version->version;
-			$data->plugins = get_plugins();
+			$data->plugins = array_intersect_key(get_plugins(), $active_plugins);
 
 			ob_start();
 			phpinfo();
