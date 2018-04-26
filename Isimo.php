@@ -135,13 +135,14 @@ HTML_BLOCK;
 		public function url_test()
 		{
 			$needle = '/isimo/status/';
-			$token_test = strstr($_SERVER['REQUEST_URI'], $needle);
+			$url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			$token_test = strstr($url_path, $needle);
 			if(!$token_test)
 			{
 				return FALSE;
 			}
 
-			$token = substr($token_test, strlen($needle));
+			$token = trim(substr($token_test, strlen($needle)), '/');
 
 			if(!$this->token)
 			{
