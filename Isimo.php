@@ -61,12 +61,17 @@
 			);
 		}
 
+		public function generate_tooken()
+		{
+			/** @noinspection CryptographicallySecureRandomnessInspection */
+			return str_replace(array('+', '/'), array('-', '_'), base64_encode(openssl_random_pseudo_bytes(24)));
+		}
+
 		public function option_page()
 		{
 			if(isset($_POST['generate']))
 			{
-				/** @noinspection CryptographicallySecureRandomnessInspection */
-				update_option('isimo_token', base64_encode(openssl_random_pseudo_bytes(24)));
+				update_option('isimo_token', $this->generate_tooken());
 				if(!$this->locked)
 				{
 					$this->token = get_option('isimo_token');
