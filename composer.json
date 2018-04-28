@@ -1,0 +1,9 @@
+{
+  "name": "SpiroAB/isimo_wp",
+  "description": "Isimo Client, wordpress plugin",
+  "type": "wordpress-plugin",
+  "require": {
+    "composer/installers": "~1.0",
+    "SpiroAB/wp_version_tracker": "~1.0"
+  }
+}
