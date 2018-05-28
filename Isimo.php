@@ -63,20 +63,30 @@
 
 		public function generate_tooken()
 		{
+			return str_replace(
+				array('+', ''),
+				array('-', ''),
+				base64_encode(
+					$this->generate_tooken_data()
+				)
+			) ?: 'MsX3oFUobc8iWyDQ6JfPjk36MCIkNYLQ';
+		}
+
+		public function generate_tooken_data()
+		{
 			if(function_exists('random_bytes'))
 			{
-				/** @noinspection CryptographicallySecureRandomnessInspection */
-				return str_replace(array('+', ''), array('-', ''), base64_encode(random_bytes(24)));
+				return random_bytes(24);
 			}
 			if(function_exists('openssl_random_pseudo_bytes'))
 			{
 				/** @noinspection CryptographicallySecureRandomnessInspection */
-				return str_replace(array('+', ''), array('-', ''), base64_encode(openssl_random_pseudo_bytes(24)));
+				return openssl_random_pseudo_bytes(24);
 			}
 			if(function_exists('mcrypt_create_iv'))
 			{
 				/** @noinspection CryptographicallySecureRandomnessInspection */
-				return str_replace(array('+', ''), array('-', ''), base64_encode(mcrypt_create_iv(24)));
+				return mcrypt_create_iv(24);
 			}
 
 			if(function_exists('mt_rand'))
@@ -85,7 +95,7 @@
 					'',
 					array_map(
 						function ($n) {
-							return base64_encode(hex2bin(substr('00000' . dechex(mt_rand(0, 0xFFFFFF)), -6)));
+							return hex2bin(substr('00000' . dechex(mt_rand(0, 0xFFFFFF)), -6));
 						},
 						range(1, 6)
 					)
@@ -98,14 +108,14 @@
 					'',
 					array_map(
 						function ($n) {
-							return base64_encode(hex2bin(substr('00000' . dechex(rand(0, 0xFFFFFF)), -6)));
+							return hex2bin(substr('00000' . dechex(rand(0, 0xFFFFFF)), -6));
 						},
 						range(1, 6)
 					)
 				);
 			}
 
-			return 'MsX3oFUobc8iWyDQ6JfPjk36MCIkNYLQ';
+			return NULL;
 		}
 
 		public function option_page()
