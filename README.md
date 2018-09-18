@@ -16,8 +16,11 @@ Information served:
 * Save the generated token at the Isimo-server
 
 ## Version History ##
+Available working versions:
 * v1.1.3 Generate tooken, now can use multiple functions for generating the random data. 
 * v1.1.1 Generated tookens use url-safe base64 encoding. Ignores Query-parameters.
+
+Older versions, no longer compatile witht the Isimo-server. (Commit 367cb3c, 2018-04-25, Add timestamp when fetching report to avoid cache)
 * v1.1.0 Only list active plugins.
 * v1.0.0 Can now generate the tooken from admin.
 * v0.1.0 Moved version-tracking to SpiroAB/wp_version_tracker.
