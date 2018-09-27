@@ -298,6 +298,21 @@ HTML_BLOCK;
 				break;
 			}
 
+			$composer_files = [
+				$_SERVER['DOCUMENT_ROOT'] . '/composer.lock',
+				ABSPATH . '/../composer.lock',
+				ABSPATH . '/composer.lock',
+			];
+
+			foreach($composer_files as $composer_file)
+			{
+				if(is_file($composer_file))
+				{
+					$data->composer_lock = file_get_contents($composer_file);
+					break;
+				}
+			}
+
 			header('Content-Type: application/json');
 			echo json_encode($data, JSON_PRETTY_PRINT);
 			die();
