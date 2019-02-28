@@ -248,13 +248,16 @@ HTML_BLOCK;
 			};
 
 			$data->gitsha = NULL;
-			$git_dirs = [
-				$_SERVER['DOCUMENT_ROOT'] . '/.git',
-				ABSPATH . '/../.git',
-				ABSPATH . '/.git',
+
+			$paths = [
+				$_SERVER['DOCUMENT_ROOT'],
+				ABSPATH . '/..',
+				ABSPATH,
 			];
-			foreach($git_dirs as $git_dir)
+
+			foreach($paths as $path)
 			{
+			  $git_dir = $path.'/.git';
 				if(!is_dir($git_dir))
 				{
 					continue;
@@ -298,17 +301,15 @@ HTML_BLOCK;
 				break;
 			}
 
-			$composer_files = [
-				$_SERVER['DOCUMENT_ROOT'] . '/composer.lock',
-				ABSPATH . '/../composer.lock',
-				ABSPATH . '/composer.lock',
-			];
-
-			foreach($composer_files as $composer_file)
+			foreach($paths as $path)
 			{
-				if(is_file($composer_file))
+				if(is_file($path.'/composer.lock'))
 				{
-					$data->composer_lock = file_get_contents($composer_file);
+					$data->composer_lock = file_get_contents($path.'/composer.lock');
+					if(is_file($path.'/composer.json'))
+					{
+					  $data->composer_json = file_get_contents($path.'/composer.json');
+					}
 					break;
 				}
 			}
