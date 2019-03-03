@@ -8,7 +8,8 @@ Information served:
  * PHP-version and more from phpinfo()
  * MySQL info 'SHOW VARIABLES'
  * Current git commit (sha)
- * Composer.lock file
+ * composer.lock file
+ * composer.json file
 
 ## Install ##
 * Install into `<wp>/wp-content/plugins/isimo_wp/`
@@ -18,7 +19,8 @@ Information served:
 
 ## Version History ##
 Available working versions:
-* v1.1.4 Support for composer.lcok
+* v1.1.5 Support for composer.json
+* v1.1.4 Support for composer.lock
 * v1.1.3 Generate tooken, now can use multiple functions for generating the random data. 
 * v1.1.1 Generated tookens use url-safe base64 encoding. Ignores Query-parameters.
 
