@@ -53,13 +53,15 @@
 
 		public function option_menu()
 		{
-			return add_options_page(
+			$slug = add_options_page(
 				'Isimo Config',
 				'Isimo',
 				'manage_options',
 				'isimo-config',
 				[$this, 'option_page']
 			);
+			add_action('admin_print_scripts-' . $slug, [$this, 'admin_css']);
+			return $slug;
 		}
 
 		public static function generate_tooken()
@@ -130,6 +132,17 @@
 			return NULL;
 		}
 
+		public static function admin_css()
+		{
+			echo <<<HTML_BLOCK
+            <style>
+               #isimo_options label {display: block;}
+               #isimo_options label span:first-child {display: inline-block; width: 140px;}
+               #isimo_options label input[type=text] {width: 400px;}
+            </style>
+HTML_BLOCK;
+		}
+
 		public function option_page()
 		{
 			if(isset($_POST['generate']))
@@ -149,14 +162,8 @@
 				}
 			}
 
-			// TODO: add style using the wordpress-method
 			echo <<<HTML_BLOCK
        <div class="wrap" id="isimo_options">
-            <style>
-               #isimo_options label {display: block;}
-               #isimo_options label span:first-child {display: inline-block; width: 140px;}
-               #isimo_options label input[type=text] {width: 400px;}
-            </style>
             <h1>Isimo</h1>
             <form method="post" action="#">
 
@@ -165,22 +172,21 @@ HTML_BLOCK;
 			echo '<label><span>Isimo Access-token:</span> ';
 			if($this->locked)
 			{
-				echo '<input type="text" readonly value="' . htmlentities($this->token, ENT_QUOTES) . '" />';
+				echo '<input type="text" readonly value="' . esc_attr($this->token, ENT_QUOTES) . '" />';
 			}
 			else
 			{
-				echo '<input type="text" name="isimo_token" value="' . htmlentities($this->token, ENT_QUOTES) . '" />';
-
+				echo '<input type="text" name="isimo_token" value="' . esc_attr($this->token, ENT_QUOTES) . '" />';
 			}
 			echo '</label>';
 			$fetch_value = $this->last_fetch_time ? date('Y-m-d H:i:s e', $this->last_fetch_time) : 'Never';
 			echo '<label><span>Last fetched:</span> <input type="text" readonly value="' . $fetch_value . '" /></label>';
 
-			submit_button();
+			echo get_submit_button();
 
 			if(!$this->token)
 			{
-				echo '<input type="submit" name="generate" value="Generate Token" class="button button-primary" />';
+				echo get_submit_button('Generate Token', ['primary'], 'generate', false);
 			}
 
 			echo <<<HTML_BLOCK
