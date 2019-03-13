@@ -65,8 +65,8 @@
 		public static function generate_tooken()
 		{
 			return str_replace(
-				array('+', ''),
-				array('-', ''),
+				array('+', '/'),
+				array('-', '_'),
 				base64_encode(
 					self::generate_tooken_data()
 				)
