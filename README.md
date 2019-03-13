@@ -19,6 +19,7 @@ Information served:
 
 ## Version History ##
 Available working versions:
+* v1.1.6 Git-status
 * v1.1.5 Support for composer.json
 * v1.1.4 Support for composer.lock
 * v1.1.3 Generate tooken, now can use multiple functions for generating the random data. 
