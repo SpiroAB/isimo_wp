@@ -36,6 +36,7 @@
 			$this->locked = defined('ISIMO_TOKEN');
 			if($this->locked)
 			{
+				/** @noinspection PhpUndefinedConstantInspection defined() is used */
 				$this->token = ISIMO_TOKEN;
 			}
 			else
@@ -45,14 +46,14 @@
 			$this->last_fetch_time = get_option('isimo_last_fetch');
 		}
 
-		public function admin_init()
+		public static function admin_init()
 		{
 			register_setting( 'Isimo', 'isimo_token' );
 		}
 
 		public function option_menu()
 		{
-			add_options_page(
+			return add_options_page(
 				'Isimo Config',
 				'Isimo',
 				'manage_options',
@@ -61,31 +62,40 @@
 			);
 		}
 
-		public function generate_tooken()
+		public static function generate_tooken()
 		{
 			return str_replace(
 				array('+', ''),
 				array('-', ''),
 				base64_encode(
-					$this->generate_tooken_data()
+					self::generate_tooken_data()
 				)
 			) ?: 'MsX3oFUobc8iWyDQ6JfPjk36MCIkNYLQ';
 		}
 
-		public function generate_tooken_data()
+		public static function generate_tooken_data()
 		{
 			if(function_exists('random_bytes'))
 			{
-				return random_bytes(24);
+				try
+				{
+					return random_bytes(24);
+				}
+				catch(\Exception $e)
+				{
+				}
 			}
 			if(function_exists('openssl_random_pseudo_bytes'))
 			{
 				/** @noinspection CryptographicallySecureRandomnessInspection */
+				/** @noinspection PhpComposerExtensionStubsInspection */
 				return openssl_random_pseudo_bytes(24);
 			}
 			if(function_exists('mcrypt_create_iv'))
 			{
 				/** @noinspection CryptographicallySecureRandomnessInspection */
+				/** @noinspection PhpComposerExtensionStubsInspection */
+				/** @noinspection PhpDeprecationInspection */
 				return mcrypt_create_iv(24);
 			}
 
@@ -94,7 +104,8 @@
 				return implode(
 					'',
 					array_map(
-						function ($n) {
+						function () {
+							/** @noinspection RandomApiMigrationInspection */
 							return hex2bin(substr('00000' . dechex(mt_rand(0, 0xFFFFFF)), -6));
 						},
 						range(1, 6)
@@ -107,7 +118,8 @@
 				return implode(
 					'',
 					array_map(
-						function ($n) {
+						function () {
+							/** @noinspection RandomApiMigrationInspection */
 							return hex2bin(substr('00000' . dechex(rand(0, 0xFFFFFF)), -6));
 						},
 						range(1, 6)
@@ -122,7 +134,7 @@
 		{
 			if(isset($_POST['generate']))
 			{
-				update_option('isimo_token', $this->generate_tooken());
+				update_option('isimo_token', Isimo::generate_tooken());
 				if(!$this->locked)
 				{
 					$this->token = get_option('isimo_token');
@@ -137,6 +149,7 @@
 				}
 			}
 
+			// TODO: add style using the wordpress-method
 			echo <<<HTML_BLOCK
        <div class="wrap" id="isimo_options">
             <style>
@@ -152,15 +165,15 @@ HTML_BLOCK;
 			echo '<label><span>Isimo Access-token:</span> ';
 			if($this->locked)
 			{
-				echo '<input type="text" readonly value="' . htmlentities($this->token) . '" />';
+				echo '<input type="text" readonly value="' . htmlentities($this->token, ENT_QUOTES) . '" />';
 			}
 			else
 			{
-				echo '<input type="text" name="isimo_token" value="' . htmlentities($this->token) . '" />';
+				echo '<input type="text" name="isimo_token" value="' . htmlentities($this->token, ENT_QUOTES) . '" />';
 
 			}
-			echo "</label>";
-			$fetch_value = $this->last_fetch_time ? date("Y-m-d H:i:s e", $this->last_fetch_time) : 'Never';
+			echo '</label>';
+			$fetch_value = $this->last_fetch_time ? date('Y-m-d H:i:s e', $this->last_fetch_time) : 'Never';
 			echo '<label><span>Last fetched:</span> <input type="text" readonly value="' . $fetch_value . '" /></label>';
 
 			submit_button();
@@ -245,7 +258,7 @@ HTML_BLOCK;
 			foreach($GLOBALS['wpdb']->get_results('SHOW VARIABLES') as $row)
 			{
 				$data->mysql[$row->Variable_name] = $row->Value;
-			};
+			}
 
 			$data->gitsha = NULL;
 
