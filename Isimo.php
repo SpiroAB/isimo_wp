@@ -311,6 +311,13 @@ HTML_BLOCK;
 				}
 
 				$data->gitsha = $git_ref;
+
+				$cmd = 'cd ' . escapeshellarg($path) . ' ; git status --porcelain';
+				$data->gitstatus = shell_exec($cmd);
+				if(!$data->gitstatus)
+				{
+					unset($data->gitstatus);
+				}
 				break;
 			}
 
