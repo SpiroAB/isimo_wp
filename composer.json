@@ -1,5 +1,5 @@
 {
-  "name": "SpiroAB/isimo_wp",
+  "name": "spiroab/isimo_wp",
   "description": "Isimo Client, wordpress plugin",
   "type": "wordpress-plugin",
   "require": {
