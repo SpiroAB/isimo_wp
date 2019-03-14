@@ -318,7 +318,7 @@ HTML_BLOCK;
 
 				$data->gitsha = $git_ref;
 
-				$cmd = 'cd ' . escapeshellarg($path) . ' ; git status --porcelain';
+				$cmd = 'cd ' . escapeshellarg($path) . ' ; git status --porcelain -uall';
 				$data->gitstatus = shell_exec($cmd);
 				if(!$data->gitstatus)
 				{
