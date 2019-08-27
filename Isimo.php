@@ -219,7 +219,7 @@ HTML_BLOCK;
 				return FALSE;
 			}
 
-			if($token !== $this->token)
+			if($token !== $this->token && urldecode($token) !== $this->token)
 			{
 				return FALSE;
 			}
