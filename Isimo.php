@@ -17,7 +17,6 @@
 		public $token;
 		public $last_fetch_time;
 
-
 		public function __construct()
 		{
 			add_action('init', [$this, 'init']);
@@ -46,9 +45,11 @@
 			$this->last_fetch_time = get_option('isimo_last_fetch');
 		}
 
-		public static function admin_init()
+		public function admin_init()
 		{
-			register_setting( 'Isimo', 'isimo_token' );
+			register_setting('Isimo', 'isimo_token');
+			$plugin_basename = plugin_basename(__DIR__ . '/isimo_wp.php');
+			add_filter("plugin_action_links_{$plugin_basename}", [$this, 'add_settings_link']);
 		}
 
 		public function option_menu()
@@ -343,5 +344,19 @@ HTML_BLOCK;
 			header('Content-Type: application/json');
 			echo json_encode($data, JSON_PRETTY_PRINT);
 			die();
+		}
+
+		/**
+		 * Add settings link on the plugins-table
+		 * @hook plugin_action_links_<plugin_file>
+		 * @param string[] $links
+		 * @return string[] modifed $links
+		 */
+		public function add_settings_link($links)
+		{
+			$url = htmlentities(get_admin_url(null, 'options-general.php?page=isimo-config'), ENT_COMPAT);
+			$title = htmlentities(__('Settings'), ENT_NOQUOTES);
+			array_unshift($links, "<a href=\"{$url}\">{$title}</a>");
+			return $links;
 		}
 	}
